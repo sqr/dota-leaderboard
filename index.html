@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Dota custom leaderboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    
+    <!-- 
+    <script src='main.js'></script> 
+    -->
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        .leaderboard_table tr:first-child td {
+            vertical-align: top;
+            background-color: #ffd700;
+        }
+        .leaderboard_table tr:nth-child(2) td {
+            vertical-align: top;
+            background-color: #c0c0c0;
+        }
+        .leaderboard_table tr:nth-child(3) td {
+            vertical-align: top;
+            background-color: #cd7f32;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Dota2 Custom leaderboard</h1>
+    <table class = "leaderboard_table">
+        <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Nombre</th>
+                <th>Rank</th>
+                <th>MMR</th>
+            </tr>
+        </thead>
+        <tbody id ="table_body">
+
+        </tbody>
+        
+    </table>
+    </center>
+    <script>
+        const players = ['38019203', '11545115', '80463255', '29426911', '92111820', '117180014', '125506375', '27409499'];
+        let player_data = [];
+
+        populate_table(player_data);
+
+        async function populate_table(player_data) {
+            await sort_players(player_data);
+
+            for (player in player_data){
+                var row = document.createElement("tr");
+                row.innerHTML = '<td><img src=' + player_data[player].profile.avatarmedium + '</img></td>' + '<td>' + player_data[player].profile.personaname + '</td>' + '<td>' + player_data[player].rank_tier + '</td>' + '<td>' + player_data[player].mmr_estimate.estimate + '</td>';
+                document.getElementById('table_body').appendChild(row);
+
+                console.log(player_data[player].mmr_estimate.estimate);
+            }
+
+            /*<tr>
+            <td><img src = "" id="avatar"></td>
+            <td><span id="name"></span></td>
+            <td><span id="rank"></span></td>
+            <td><span id="mmr"></span></td>
+            </tr> */
+
+        };
+
+        async function sort_players(player_data){ 
+            await getPlayers(players);
+            player_data.sort((a,b)=> (a.mmr_estimate.estimate < b.mmr_estimate.estimate ? 1 : -1));
+            console.log('Objeto final sorteado: ')
+            console.log(player_data);
+        };
+
+        async function getPlayers(players){ 
+            
+            for (player in players){
+                const player_id = players[player];
+                const api_url = 'https://api.opendota.com/api/players/' + player_id;
+                const response = await fetch(api_url);
+                const json = await response.json();
+                player_data.push(json);
+            };
+        };
+
+        /*
+        async function getPlayer(player) {
+            const player_id = players[player];
+            const api_url = 'https://api.opendota.com/api/players/' + player_id;
+            const response = await fetch(api_url);
+            const json = await response.json();
+            player_data.push(json);
+            console.log(json);
+             document.getElementById('avatar').src = json.profile.avatarmedium;
+            document.getElementById('name').textContent = json.profile.personaname;
+            document.getElementById('rank').textContent = json.rank_tier;
+            document.getElementById('mmr').textContent = json.mmr_estimate.estimate;
+            
+
+            const sorted_player_data = player_data.sort((a,b)=> (a.mmr_estimate.estimate > b.mmr_estimate.estimate ? 1 : -1));
+
+
+             
+        };*/
+        
+    </script>
+</body>
+</html>
