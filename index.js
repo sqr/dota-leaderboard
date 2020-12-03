@@ -5,24 +5,27 @@ var path = require('path');
 require('dotenv').config({path: __dirname + '/.env'})
 
 const app = express();
-app.listen(3000, () => console.log('listening at lul port 3000'));
-app.use('/static', express.static('static'));
 
 const database = new Datastore('database.db');
 database.loadDatabase();
 /* database.insert({name: 'Arturo'}) */
 
+const allData = [];
+
+app.listen(3000, () => console.log('listening at lul port 3000'));
+app.use('/static', express.static('static'));
+
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 });
 
-const allData = [];
-
-app.use(express.json());
 app.post('/api', (request, response) => {
     const data = request.body;
-    allData.push(data);
 
+    allData.push(data);
+    
     response.json(allData);
     console.log('Got a request!');
     console.log(data);
@@ -44,6 +47,4 @@ app.get('/ajax', (req, res) => {
     res.send(JSONdata);
 });
 
-
 /* http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key= &vanityurl=square */
-
