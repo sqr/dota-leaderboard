@@ -12,7 +12,8 @@
     -->
     <style>
         table, th, td {
-          border: 1px solid black;
+            width:400px;
+            border: 1px solid black;
         }
         .leaderboard_table tr:first-child td {
             vertical-align: top;
@@ -63,13 +64,6 @@
                 console.log(player_data[player].mmr_estimate.estimate);
             }
 
-            /*<tr>
-            <td><img src = "" id="avatar"></td>
-            <td><span id="name"></span></td>
-            <td><span id="rank"></span></td>
-            <td><span id="mmr"></span></td>
-            </tr> */
-
         };
 
         async function sort_players(player_data){ 
@@ -89,27 +83,6 @@
                 player_data.push(json);
             };
         };
-
-        /*
-        async function getPlayer(player) {
-            const player_id = players[player];
-            const api_url = 'https://api.opendota.com/api/players/' + player_id;
-            const response = await fetch(api_url);
-            const json = await response.json();
-            player_data.push(json);
-            console.log(json);
-             document.getElementById('avatar').src = json.profile.avatarmedium;
-            document.getElementById('name').textContent = json.profile.personaname;
-            document.getElementById('rank').textContent = json.rank_tier;
-            document.getElementById('mmr').textContent = json.mmr_estimate.estimate;
-            
-
-            const sorted_player_data = player_data.sort((a,b)=> (a.mmr_estimate.estimate > b.mmr_estimate.estimate ? 1 : -1));
-
-
-             
-        };*/
-        
     </script>
 </body>
 </html>

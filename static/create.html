@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Create new leaderboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+
+<body>
+    <h2>Create new Leaderboard</h2>
+    <h2 id="peinador"></h2>
+    <h2 id="peinador2"></h2>
+    <ul>
+        <li>Player 1</li>
+    </ul>
+
+    <form>
+        
+        <label for="fname">Player Steam Community URL or ID:</label><br>
+        <input type="text" id="playerid" name="playerid" size="50"><br>
+        <input id="addplayer" type="button" value="Add Player">
+        <input id="submit" type="button" value="Create Leaderboard">
+
+      </form> 
+</body>
+<script>
+    let userid;
+    const button = document.getElementById('addplayer');
+    button.addEventListener('click', async event => {
+        userid =  document.getElementById("playerid").value;
+        console.log(userid);
+        const data = { userid };
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/api', options);
+        const json = await response.json();
+        console.log(json);
+    });
+    
+    getId();
+
+    async function getId(){
+        const options_nano = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+        const nanoid = await fetch('/nanoid', options_nano);
+        const nano_json = await nanoid.json();
+        console.log(nano_json);
+        document.getElementById('peinador2').innerText = nano_json;
+    };
+
+    var req = new XMLHttpRequest();
+    var url = '/ajax';
+
+    req.open('GET',url,true);
+    req.addEventListener('load', onLoad);
+    req.addEventListener('error', onError);
+
+    req.send();
+
+    function onLoad() {
+        var response = this.responseText;
+        var parsedResponse = JSON.parse(response);
+        var messageToDisplay = parsedResponse['message'];
+        document.getElementById('peinador').innerText = messageToDisplay;
+    }
+    
+    function onError() {
+        console.log('error receiving async AJAX call');
+    }
+
+
+</script>
+</html>
