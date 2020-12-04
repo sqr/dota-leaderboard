@@ -12,7 +12,7 @@
     <h2>Create new Leaderboard</h2>
     <h2 id="peinador"></h2>
     <h2 id="peinador2"></h2>
-    <ul>
+    <ul id="playerlist">
         <li>Player 1</li>
     </ul>
 
@@ -45,8 +45,28 @@
         const response = await fetch('/api', options);
         const json = await response.json();
         console.log(json);
+        var playerData = await getPlayerData(json);
+        playerList.push(playerData);
+        var item = document.createElement("li");
+        item.innerHTML = 'Name: ' + playerData.profile.personaname + '   ' + 'SteamID: ' + json;
+        document.getElementById('playerlist').appendChild(item);
+        
+        console.log(playerList);
+        
+    
     });
     
+    async function getPlayerData(steamid32) {
+        api_url = 'https://api.opendota.com/api/players/' + steamid32;
+        const response = await fetch(api_url);
+        const json = await response.json();
+        return json;
+    }
+
+
+
+
+
     getId();
 
     async function getId(){

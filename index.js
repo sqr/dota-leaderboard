@@ -1,6 +1,7 @@
 const express = require('express');
 const Datastore = require('nedb');
 var { nanoid } = require("nanoid");
+const fetch = require('node-fetch');
 var path = require('path');
 require('dotenv').config({path: __dirname + '/.env'})
 
@@ -22,14 +23,15 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api', (request, response) => {
-    const data = request.body;
-
-    allData.push(data);
+    const vanityurl = request.body.userid;
     
-    response.json(allData);
-    console.log('Got a request!');
-    console.log(data);
-    console.log(allData);
+    (async function() {
+        const steamid32 = await vanityToSteamid32(vanityurl);
+        console.log('steamid 32', steamid32);
+        console.log(vanityurl);
+        allData.push(steamid32);
+        response.json(steamid32);
+      })();
 });
 
 app.get('/nanoid', (req, res) => {
@@ -47,4 +49,18 @@ app.get('/ajax', (req, res) => {
     res.send(JSONdata);
 });
 
-/* http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key= &vanityurl=square */
+async function vanityToSteamid32(vanityurl){
+    token = process.env['DOTA2_API'];
+    const api_url = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=' +  token + '&vanityurl=' + vanityurl;
+    const response = await fetch(api_url);
+    const json = await response.json();
+    console.log(json.response.steamid);
+    steamid64 = json.response.steamid;
+    const id64 = BigInt(steamid64);
+    const converter = BigInt('76561197960265728');
+    console.log(converter);
+    var q = id64 - converter;
+    console.log(q);
+    console.log(q.toString());
+    return q.toString();
+};
