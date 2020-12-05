@@ -77,7 +77,7 @@
         const response = await fetch('/generate', options);
         const nano_json = await response.json();
         console.log(nano_json);
-        //window.location.href = "http://localhost:3000/" + nano_json;
+        window.location.href = "http://localhost:3000/leaderboard/" + nano_json;
     });
 
 

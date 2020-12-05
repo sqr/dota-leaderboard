@@ -3,9 +3,16 @@ const Datastore = require('nedb');
 var { nanoid } = require("nanoid");
 const fetch = require('node-fetch');
 var path = require('path');
+const handlebars = require('express-handlebars');
 require('dotenv').config({path: __dirname + '/.env'})
 
 const app = express();
+
+app.set('view engine', 'hbs');
+app.engine('hbs', handlebars({
+    layoutsDir: __dirname + '/views/layouts',
+    extname: 'hbs'
+}));
 
 const database = new Datastore('database.db');
 database.loadDatabase();
@@ -61,6 +68,16 @@ app.get('/ajax', (req, res) => {
     res.send(JSONdata);
 });
 
+app.get('/leaderboard/:leaderboard_id', (req, res) => {
+    database.find({ leaderboard_id: req.params.leaderboard_id }, function (err, docs) {
+        // docs is an array containing documents Mars, Earth, Jupiter
+        // If no document is found, docs is equal to []
+        console.log(docs);
+        var JSONdata = JSON.stringify(id);
+        res.send(JSONdata);
+      });
+});
+
 async function vanityToSteamid32(vanityurl){
     token = process.env['DOTA2_API'];
     const api_url = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=' +  token + '&vanityurl=' + vanityurl;
@@ -78,5 +95,10 @@ async function vanityToSteamid32(vanityurl){
 };
 
 function createDbRecord(playerList, id){
-    
-}
+    database.insert({'leaderboard_id': id, 'playerList': []});
+    //for (player in playerList){
+    for (player in playerList){
+         database.update({ leaderboard_id: id }, { $push: { playerList: playerList[player].profile.account_id } }, {}, function () {
+        });
+    }
+ };
