@@ -34,6 +34,14 @@ app.post('/api', (request, response) => {
       })();
 });
 
+app.post('/generate', (request, response) => {
+    const playerList = request.body;
+    console.log(playerList);
+    //response.json('peine');
+    var id = nanoid();
+    response.redirect('/static/index.html');
+});
+
 app.get('/nanoid', (req, res) => {
     token = process.env['DOTA2_API'];
     console.log(token)

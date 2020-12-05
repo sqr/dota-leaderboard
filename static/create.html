@@ -6,15 +6,27 @@
     <title>Create new leaderboard</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        button {
+            cursor: pointer;
+        }
+        input[type=button]{
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
     <h2>Create new Leaderboard</h2>
     <h2 id="peinador"></h2>
     <h2 id="peinador2"></h2>
-    <ul id="playerlist">
-        <li>Player 1</li>
-    </ul>
+    <table id="playertable">
+    </table>
 
     <form>
         
@@ -47,13 +59,61 @@
         console.log(json);
         var playerData = await getPlayerData(json);
         playerList.push(playerData);
-        var item = document.createElement("li");
-        item.innerHTML = 'Name: ' + playerData.profile.personaname + '   ' + 'SteamID: ' + json;
-        document.getElementById('playerlist').appendChild(item);
+        addRow(playerData);
+
+        console.log(playerList);    
+    });
+
+    const submit = document.getElementById('submit');
+    submit.addEventListener('click', async event => {
+        const data = playerList;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/generate', options);
+        const json = await response;
+        //console.log(json);
+    });
+
+
+
+
+    function addRow(player) {
+        var avatarURL = player.profile.avatar;
+        var profileURL = player.profile.profileurl;
+        var name = player.profile.personaname;
+        var ranktier = player.rank_tier;
+
+        var row = document.createElement("tr");
+
+        var avatarCell = document.createElement("td");
+        var nameCell = document.createElement("td");
+        var rankCell = document.createElement("td");
+        var deleteCell = document.createElement("td");
+
+        var cells = [avatarCell, nameCell, rankCell, deleteCell];
+
+        avatarCell.innerHTML = '<img src=' + avatarURL + '>' + '</img>';
+        nameCell.innerHTML = '<a target=_blank href=' + profileURL + '>' + name + '</a>';
+        rankCell.innerHTML = ranktier;
+        deleteCell.innerHTML = '<button>Delete</button>';
+
+        cells.forEach(cell => row.appendChild(cell));
         
+        document.getElementById('playertable').appendChild(row);
+
+    }
+
+    $("#playertable").on("click", "button", function(e) {
+        e.preventDefault();
+        var row_index = $(this).parent().parent().index();
+        playerList.splice(row_index, 1);
+        $(this).parent().parent().remove();
         console.log(playerList);
-        
-    
     });
     
     async function getPlayerData(steamid32) {
@@ -62,10 +122,6 @@
         const json = await response.json();
         return json;
     }
-
-
-
-
 
     getId();
 
