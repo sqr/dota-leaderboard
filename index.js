@@ -39,7 +39,11 @@ app.post('/generate', (request, response) => {
     console.log(playerList);
     //response.json('peine');
     var id = nanoid();
-    response.redirect('/static/index.html');
+    console.log(id);
+    createDbRecord(playerList, id);
+    var JSONdata = JSON.stringify(id);
+    // database.insert({name: 'Arturo'})
+    response.send(JSONdata);
 });
 
 app.get('/nanoid', (req, res) => {
@@ -72,3 +76,7 @@ async function vanityToSteamid32(vanityurl){
     console.log(q.toString());
     return q.toString();
 };
+
+function createDbRecord(playerList, id){
+    
+}
