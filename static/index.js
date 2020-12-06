@@ -2,43 +2,47 @@ var playerList= [];
     
 let userid;
 const button = document.getElementById('addplayer');
-button.addEventListener('click', async event => {
-    userid =  document.getElementById("playerid").value;
-    console.log(userid);
-    const data = { userid };
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-    const response = await fetch('/api', options);
-    const json = await response.json();
-    console.log(json);
-    var playerData = await getPlayerData(json);
-    playerList.push(playerData);
-    addRow(playerData);
+if (button) {
+    button.addEventListener('click', async event => {
+        userid =  document.getElementById("playerid").value;
+        console.log(userid);
+        const data = { userid };
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/api', options);
+        const json = await response.json();
+        console.log(json);
+        var playerData = await getPlayerData(json);
+        playerList.push(playerData);
+        addRow(playerData);
 
-    console.log(playerList);    
-});
+        console.log(playerList);    
+    });
+}
 
 const submit = document.getElementById('submit');
-submit.addEventListener('click', async event => {
-    const data = playerList;
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-    const response = await fetch('/generate', options);
-    const nano_json = await response.json();
-    console.log(nano_json);
-    var leaderboard_url = window.location.href + "leaderboard/" + nano_json;
-    window.location.href = leaderboard_url;
-});
+if (submit) {
+    submit.addEventListener('click', async event => {
+        const data = playerList;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/generate', options);
+        const nano_json = await response.json();
+        console.log(nano_json);
+        var leaderboard_url = window.location.href + "leaderboard/" + nano_json;
+        window.location.href = leaderboard_url;
+    });
+}
 
 function addRow(player) {
     var avatarURL = player.profile.avatar;

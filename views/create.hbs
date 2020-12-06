@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="icon" href="/static/favicon.svg">
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Create new leaderboard</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='static/style.css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+<h2>Create new Leaderboard</h2>
+<table id="playertable">
+</table>
 
-<body>
-    <h2>Create new Leaderboard</h2>
-    <h2 id="peinador"></h2>
-    <h2 id="peinador2"></h2>
-    <table id="playertable">
-    </table>
+<form>
+    
+    <label for="fname">Player Steam Community URL or ID:</label><br>
+    <input type="text" id="playerid" name="playerid" size="50"><br>
+    <input id="addplayer" type="button" value="Add Player">
+    <input id="submit" type="button" value="Create Leaderboard">
 
-    <form>
-        
-        <label for="fname">Player Steam Community URL or ID:</label><br>
-        <input type="text" id="playerid" name="playerid" size="50"><br>
-        <input id="addplayer" type="button" value="Add Player">
-        <input id="submit" type="button" value="Create Leaderboard">
-
-      </form> 
-</body>
-<script src="static/index.js"></script> 
-</html>
+    </form>
+    
