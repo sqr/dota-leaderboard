@@ -47,12 +47,6 @@ app.post('/generate', (request, response) => {
     response.send(JSONdata);
 });
 
-app.get('/ajax', (req, res) => {
-    var dataToSend = { 'message': 'pene' };
-    var JSONdata = JSON.stringify(dataToSend);
-    res.send(JSONdata);
-});
-
 app.get('/leaderboard/:leaderboard_id', (req, res) => {
     database.find({ leaderboard_id: req.params.leaderboard_id }, function (err, docs) {
         console.log('Request leaderboard id: ' + docs[0].leaderboard_id);
