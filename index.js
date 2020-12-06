@@ -11,31 +11,28 @@ const app = express();
 app.set('view engine', 'hbs');
 app.engine('hbs', handlebars({
     layoutsDir: __dirname + '/views/layouts',
-    extname: 'hbs'
+    extname: 'hbs',
+    defaultLayout: 'index'
 }));
 
-const database = new Datastore('database.db');
-database.loadDatabase();
-/* database.insert({name: 'Arturo'}) */
+const database = new Datastore({ filename: 'database.db', timestampData: true, autoload: true });
 
-const allData = [];
 
-app.listen(3000, () => console.log('listening at lul port 3000'));
+app.listen(3000, () => console.log('listening at port 3000'));
 app.use('/static', express.static('static'));
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.render('create');
 });
 
 app.post('/api', (request, response) => {
     const vanityurl = request.body.userid;
-    
+    const allData = [];
+
     (async function() {
         const steamid32 = await vanityToSteamid32(vanityurl);
-        console.log('steamid 32', steamid32);
-        console.log(vanityurl);
         allData.push(steamid32);
         response.json(steamid32);
       })();
@@ -43,38 +40,34 @@ app.post('/api', (request, response) => {
 
 app.post('/generate', (request, response) => {
     const playerList = request.body;
-    console.log(playerList);
-    //response.json('peine');
     var id = nanoid();
     console.log(id);
     createDbRecord(playerList, id);
     var JSONdata = JSON.stringify(id);
-    // database.insert({name: 'Arturo'})
     response.send(JSONdata);
 });
 
-app.get('/nanoid', (req, res) => {
-    token = process.env['DOTA2_API'];
-    console.log(token)
-    var id = nanoid();
-    console.log(id);
-    var JSONid = JSON.stringify(id);
-    res.send(JSONid);
-});
-
 app.get('/ajax', (req, res) => {
-    var dataToSend = { 'message': 'peine' };
+    var dataToSend = { 'message': 'pene' };
     var JSONdata = JSON.stringify(dataToSend);
     res.send(JSONdata);
 });
 
 app.get('/leaderboard/:leaderboard_id', (req, res) => {
     database.find({ leaderboard_id: req.params.leaderboard_id }, function (err, docs) {
-        // docs is an array containing documents Mars, Earth, Jupiter
-        // If no document is found, docs is equal to []
-        console.log(docs);
-        var JSONdata = JSON.stringify(id);
-        res.send(JSONdata);
+        console.log('Request leaderboard id: ' + docs[0].leaderboard_id);
+        var playerList = docs[0].playerList;
+        var queryList = getQueryList(playerList);
+        Promise.all(queryList).then(function (responses) {
+            return Promise.all(responses.map(function (responses) {
+                return responses.json();
+            }));
+        }).then(function (data) {
+           var sortedData = sortPlayer(data);
+           res.render('main', { data : sortedData });
+        }).catch(function (error) {
+            console.log(error);
+        })
       });
 });
 
@@ -83,22 +76,34 @@ async function vanityToSteamid32(vanityurl){
     const api_url = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=' +  token + '&vanityurl=' + vanityurl;
     const response = await fetch(api_url);
     const json = await response.json();
-    console.log(json.response.steamid);
+    console.log('Input SteamID64: ' + json.response.steamid);
     steamid64 = json.response.steamid;
     const id64 = BigInt(steamid64);
     const converter = BigInt('76561197960265728');
-    console.log(converter);
     var q = id64 - converter;
-    console.log(q);
-    console.log(q.toString());
+    console.log('Output SteamID32: ' + q.toString());
     return q.toString();
 };
 
 function createDbRecord(playerList, id){
     database.insert({'leaderboard_id': id, 'playerList': []});
-    //for (player in playerList){
     for (player in playerList){
          database.update({ leaderboard_id: id }, { $push: { playerList: playerList[player].profile.account_id } }, {}, function () {
         });
     }
  };
+
+function getQueryList(playerList) {
+    const promises = [];
+    for (player in playerList) {
+        api_url = 'https://api.opendota.com/api/players/' + playerList[player];
+        promises.push(fetch(api_url))
+    }
+    return promises;
+}
+
+function sortPlayer(player_data){
+    player_data.sort((a,b)=> (a.mmr_estimate.estimate < b.mmr_estimate.estimate ? 1 : -1));
+    console.log('Sorting player list');
+    return player_data;
+}

@@ -77,11 +77,9 @@
         const response = await fetch('/generate', options);
         const nano_json = await response.json();
         console.log(nano_json);
-        window.location.href = "http://localhost:3000/leaderboard/" + nano_json;
+        var leaderboard_url = window.location.href.replace("static/create.html", "leaderboard/" + nano_json);
+        window.location.href = leaderboard_url;
     });
-
-
-
 
     function addRow(player) {
         var avatarURL = player.profile.avatar;
