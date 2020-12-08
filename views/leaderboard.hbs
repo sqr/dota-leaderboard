@@ -1,0 +1,18 @@
+<div class ="table_container">
+    <div class="child">
+        <h1>DOTA2 Custom Leaderboard</h1>
+    </div>
+    <div class="child">
+        <table class ="leaderboard_table">
+            {{#each data}}
+                <tr>
+                    <td><img src={{ this.profile.avatar }}></img></td>
+                    <td>{{ this.profile.personaname }}</td>
+                    <td>{{ this.profile.loccountrycode }}</td>
+                    <td>{{ this.rank_tier }}</td>
+                    <td>{{ this.mmr_estimate.estimate }}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>

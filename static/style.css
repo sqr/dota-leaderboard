@@ -1,43 +1,378 @@
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  button {
-      cursor: pointer;
-  }
-  input[type=button]{
-      cursor: pointer;
-  }
+.leaderboard_table tr:first-child td {
+    vertical-align: top;
+    background-color: #ffd700;
+}
+.leaderboard_table tr:nth-child(2) td {
+    vertical-align: top;
+    background-color: #c0c0c0;
+}
+.leaderboard_table tr:nth-child(3) td {
+    vertical-align: top;
+    background-color: #cd7f32;
+}
   /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #333;
-    overflow: hidden;
-  }
-  
-  /* Style the links inside the navigation bar */
-  .topnav a {
-    float: left;
+background-color: #333;
+overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+float: left;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+background-color: #ddd;
+color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+background-color: #4CAF50;
+color: white;
+}
+
+.navigation {
+display: flex;
+flex-flow: row wrap;
+justify-content: flex-end;
+list-style: none;
+margin: 0; 
+background-image: linear-gradient( to top,#2e2e2e,#202020,#0e0c0c,#010101 );
+height:5vh;
+min-height:50px;
+max-height:65px;
+}
+
+.navigation a {
+text-decoration: none;
+display: block;
+padding: 1em;
+color: white;
+}
+
+.navigation a:hover {
+background: #585858;
+}
+
+@media all and (max-width: 800px) {
+.navigation {
+    justify-content: space-around;
+}
+}
+
+@media all and (max-width: 600px) {
+.navigation {
+    flex-flow: column wrap;
+    padding: 0;
+}
+.navigation a { 
+    text-align: center; 
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255,0.3); 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+}
+.navigation li:last-of-type a {
+    border-bottom: none;
+}
+}
+body {
+    margin:0;
     color: #f2f2f2;
+    background: #1c1d21;
+    font-family: 'Roboto', sans-serif;
+}
+.table_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-self: center;
+    margin-bottom: 100px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    height:95vh;
+}
+.child {
+    /*  border: 2px #ffd700 solid; for flex debugging purposes */
+    display:flex;
+    justify-content: center;
+}
+
+.child-1 {
+    flex-grow:1;
+    display:flex;
+    flex-direction:column-reverse;
+}
+
+.form-create {
+    display: flex;
+    background-color:#202125;
+    padding:10px;
+    margin: 10px;
+    box-shadow: 0px 0px 21px -2px #000;
+}
+input[type=button] {
+    cursor: pointer;
+    padding:5px;
+    margin: 10px 2px 10px 2px;
+}
+input[type=text] {
+    margin: 10px 0px 10px 0px;
+}
+h1 {
+    color: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Roboto', sans-serif; */
+}
+.examples {
+    display:flex;
+    flex-direction: column;
+}
+p.example {
+    margin:0;
+    color: #cfcfcf;
+}
+p.example_italic {
+    margin:0;
+    color: #cfcfcf;
+    font-style: italic;
+    font-size: small;
+}
+.buttons {
+    display:flex;
+}
+table.playertable {
+    width:370px;
+    border-collapse: collapse;
+    background-color: #202125;
+    box-shadow: 0px 0px 21px -2px #000;
+}
+table.playertable th, tr, td {
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  /* Change the color of links on hover */
-  .topnav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
-    background-color: #4CAF50;
-    color: white;
-  }
-  footer {
+    border-bottom: 1px solid #494949;
+    padding: 10px;
+}
+table.playertable tr.player:hover {
+    background-color: #303133;
+}
+button {
+    cursor: pointer;
+}
+#playertable {
+    margin-bottom:40px;
+}
+footer {
+    width:100%;
     text-align: center;
-    padding: 3px;
     background-color: #333;
     color: white;
-  }
+ }
+ tr:nth-child(odd) {background-color: #292a30;}
+ a {
+    color:#fff;
+ }
+.avatar-small {
+    box-shadow: 0px 1px 6px 0px #000;
+}
+/* RANK TIER hell starts here */
+:root {
+     --sprite-big: url(rank_tier_sprite_big.webp);
+     --sprite-small: url(rank_tier_sprite_small.webp);
+     --big: 256px;
+     --small: 32px;
+ }
+.rank-null-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -7);
+ }
+.rank-11-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -0);
+}
+.rank-12-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -0);
+}
+.rank-13-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -0);
+}
+.rank-14-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -0);
+}
+.rank-15-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -0);
+}
+.rank-21-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -1);
+}
+.rank-22-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -1);
+}
+.rank-23-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -1);
+}
+.rank-24-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -1);
+}
+.rank-25-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -1);
+}
+.rank-31-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -2);
+}
+.rank-32-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -2);
+}
+.rank-33-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -2);
+}
+.rank-34-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -2);
+}
+.rank-35-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -2);
+}
+.rank-41-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * 0) calc( var(--small) * -3);
+}
+.rank-42-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -3);
+}
+.rank-43-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -3);
+}
+.rank-44-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -3);
+}
+.rank-45-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -3);
+}
+.rank-51-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -4);
+}
+.rank-52-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -4);
+}
+.rank-53-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -4);
+}
+.rank-54-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -4);
+}
+.rank-55-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -4);
+}
+.rank-61-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -5);
+}
+.rank-62-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -5);
+}
+.rank-63-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -5);
+}
+.rank-64-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -5);
+}
+.rank-65-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -5);
+}
+.rank-71-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -6);
+}
+.rank-72-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -1) calc( var(--small) * -6);
+}
+.rank-73-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -2) calc( var(--small) * -6);
+}
+.rank-74-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -3) calc( var(--small) * -6);
+}
+.rank-75-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -4) calc( var(--small) * -6);
+}
+.rank-80-small {
+    width: var(--small);
+    height: var(--small);
+    background: var(--sprite-small) calc( var(--small) * -0) calc( var(--small) * -7);
+}
+/* RANK TIER hell ends here */

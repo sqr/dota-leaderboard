@@ -12,7 +12,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', handlebars({
     layoutsDir: __dirname + '/views/layouts',
     extname: 'hbs',
-    defaultLayout: 'index'
+    defaultLayout: 'layout'
 }));
 
 const database = new Datastore({ filename: 'database.db', timestampData: true, autoload: true });
@@ -58,7 +58,7 @@ app.get('/leaderboard/:leaderboard_id', (req, res) => {
             }));
         }).then(function (data) {
            var sortedData = sortPlayer(data);
-           res.render('main', { data : sortedData });
+           res.render('leaderboard', { data : sortedData });
         }).catch(function (error) {
             console.log(error);
         })

@@ -20,7 +20,7 @@ if (button) {
         var playerData = await getPlayerData(json);
         playerList.push(playerData);
         addRow(playerData);
-
+        //$("#footer").load(location.href + " #footer");
         console.log(playerList);    
     });
 }
@@ -51,6 +51,7 @@ function addRow(player) {
     var ranktier = player.rank_tier;
 
     var row = document.createElement("tr");
+    row.className = "player";
 
     var avatarCell = document.createElement("td");
     var nameCell = document.createElement("td");
@@ -59,10 +60,17 @@ function addRow(player) {
 
     var cells = [avatarCell, nameCell, rankCell, deleteCell];
 
-    avatarCell.innerHTML = '<img src=' + avatarURL + '>' + '</img>';
+    avatarCell.innerHTML = '<img class="avatar-small" src=' + avatarURL + '>' + '</img>';
     nameCell.innerHTML = '<a target=_blank href=' + profileURL + '>' + name + '</a>';
-    rankCell.innerHTML = ranktier;
+    rankCell.innerHTML = '<img class="rank-' + ranktier + '-small" src="static/img_trans.gif"></img>';
     deleteCell.innerHTML = '<button>Delete</button>';
+
+    var tbl = document.getElementById('playertable');
+    if (tbl.rows.length == 0) {
+        var tbl_header = document.createElement("tr");
+        tbl_header.innerHTML = '<th>Avatar</th><th>Name</th><th>Rank</th><th>Delete</th>';
+        tbl.appendChild(tbl_header);
+    }
 
     cells.forEach(cell => row.appendChild(cell));
     
@@ -73,7 +81,7 @@ function addRow(player) {
 $("#playertable").on("click", "button", function(e) {
     e.preventDefault();
     var row_index = $(this).parent().parent().index();
-    playerList.splice(row_index, 1);
+    playerList.splice(row_index-1, 1);
     $(this).parent().parent().remove();
     console.log(playerList);
 });

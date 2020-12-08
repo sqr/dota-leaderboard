@@ -1,13 +1,30 @@
-<h2>Create new Leaderboard</h2>
-<table id="playertable">
-</table>
-
-<form>
-    
-    <label for="fname">Player Steam Community URL or ID:</label><br>
-    <input type="text" id="playerid" name="playerid" size="50"><br>
-    <input id="addplayer" type="button" value="Add Player">
-    <input id="submit" type="button" value="Create Leaderboard">
-
-    </form>
-    
+<div class="container">
+    <div class="child">
+        <h1>New Leaderboard</h1>
+    </div>
+    <div class="child">
+        <div class="form-create">
+            <form class="create">  
+                <label for="fname">Add player via Steam Community URL or ID:</label><br>
+                <input type="text" id="playerid" name="playerid" size="50"><br>
+                <div class="examples">
+                    <p class="example">Valid examples:</p>
+                    <p class="example_italic">https://steamcommunity.com/id/square/</p>
+                    <p class="example_italic">square</p>
+                </div>
+                <input id="addplayer" type="button" value="Add Player">
+                <input id="submit" type="button" value="Create Leaderboard">
+            </form>
+        </div>
+    </div>
+    <div class="child">
+        <table class="playertable" id="playertable">
+        </table>
+    </div>
+    <div class="child-1">
+            <footer>
+                <p>Author: Arturo Bracero<br>
+                <a href="/">Go Back</a></p>
+            </footer>
+    </div>
+</div>
